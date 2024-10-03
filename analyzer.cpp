@@ -1,101 +1,90 @@
 #include <iostream>
 #include "StringData.h"
 
+
 using namespace std;
 
-long long linear_search(vector<string>& container, string element)
+long long linear_search(const vector<string>& vector, const char* str)
 {
-    // Iterate through data
-    for (unsigned long long i = 0; i < container.size(); ++i)
+    for (long long i = 0; i < vector.size(); ++i)
     {
-        string item = container[i];
-        // If element equals search element, return index
-        if (item == element)
+        if (vector[i] == str)
         {
             return i;
         }
     }
-    // Iterated through all elements
     return -1;
 }
 
-long long binary_search(vector<string>& container, string element)
+long long binary_search(const vector<string>& vector, const char* str)
 {
-    // Use two pointers to keep track of edges of search space
-    unsigned long long left = 0;
-    unsigned long long right = container.size() - 1;
+    long long left = 0;
+    long long right = vector.size() - 1;
     while (left <= right)
     {
-        // Adjust search space based on middle element
-        unsigned long long mid = left + (right - left) / 2;
-        // If middle element < search element, restrict search space to upper half
-        if (container[mid] < element)
+        long long mid = left + (right - left) / 2;
+        if (vector[mid] < str)
         {
             left = mid + 1;
         }
-        // If middle element > search element, restrict search space to lower half
-        else if (container[mid] > element)
+        else if (vector[mid] > str)
         {
             right = mid - 1;
         }
-        // Middle element = search element, return middle element's index
         else
         {
             return mid;
         }
     }
-    // Exhausted search space
     return -1;
 }
 
-int main() {
-    // Access the dataset from the stringdata module
-    cout << "Accessing the dataset..." << endl;
-    vector<string>& dataset = getStringData();
-    cout << "Got the dataset!" << endl;
-    cout << "----------------" << endl;
-    
-    // Search for "not_here", logging time
-    cout << "Searching for \"not_here\"..." << endl;
-    
-    cout << "Using linear search..." << endl;
-    long long begin = systemTimeNanoseconds();
-    cout << "INDEX: "  << linear_search(dataset, "not_here") << endl;
-    cout << "ELAPSED TIME: " << ((systemTimeNanoseconds() - begin)/1e9) << endl;
-    cout << endl;
-    
-    cout << "Using binary search..." << endl;
-    begin = systemTimeNanoseconds();
-    cout << "INDEX: "  << binary_search(dataset, "not_here") << endl;
-    cout << "ELAPSED TIME: " << ((systemTimeNanoseconds() - begin)/1e9) << endl;
-    cout << "----------------" << endl;
-    
-    // Search for "mzzzz", logging time
-    cout << "Searching for \"mzzzz\"..." << endl;
+int main()
+{
+    vector<string> dataset = getStringData();
 
-    cout << "Using linear search..." << endl;
-    begin = systemTimeNanoseconds();
-    cout << "INDEX: " << linear_search(dataset, "mzzzz") << endl;
-    cout << "ELAPSED TIME: " << ((systemTimeNanoseconds() - begin)/1e9) << endl;
-    cout << endl;
-    
-    cout << "Using binary search..." << endl;
-    begin = systemTimeNanoseconds();
-    cout << "INDEX: " << binary_search(dataset, "mzzzz") << endl;
-    cout << "ELAPSED TIME: " << ((systemTimeNanoseconds() - begin)/1e9) << endl;
-    cout << "----------------" << endl;
-    
-    // Search for "aaaaa", logging time
-    cout << "Searching for \"aaaaa\"..." << endl;
 
-    cout << "Using linear search..." << endl;
-    begin = systemTimeNanoseconds();
-    cout << "INDEX: " << linear_search(dataset, "aaaaa") << endl;
-    cout << "ELAPSED TIME: " << ((systemTimeNanoseconds() - begin)/1e9) << endl;
-    cout << endl;
-    
-    cout << "Using binary search..." << endl;
-    begin = systemTimeNanoseconds();
-    cout << "INDEX: " << binary_search(dataset, "aaaaa") << endl;
-    cout << "ELAPSED TIME: " << ((systemTimeNanoseconds() - begin)/1e9) << endl;
+    clock_t start = clock();
+    long long not_here = linear_search(dataset, "not_here");
+    clock_t end = clock();
+    printf("Linear search: \"not_here\" found at index %lld in %lld ns\n", not_here, end - start);
+
+    start = clock();
+    not_here = binary_search(dataset, "not_here");
+    end = clock();
+    printf("Binary search: \"not_here\" found at index %lld in %lld ns\n", not_here, end - start);
+
+
+    start = clock();
+    long long zzzzz = linear_search(dataset, "zzzzz");
+    end = clock();
+    printf("Linear search: \"zzzzz\" found at index %lld in %lld ns\n", zzzzz, end - start);
+
+    start = clock();
+    zzzzz = binary_search(dataset, "zzzzz");
+    end = clock();
+    printf("Binary search: \"zzzzz\" found at index %lld in %lld ns\n", zzzzz, end - start);
+
+
+    start = clock();
+    long long mzzzz = linear_search(dataset, "mzzzz");
+    end = clock();
+    printf("Linear search: \"mzzzz\" found at index %lld in %lld ns\n", mzzzz, end - start);
+
+    start = clock();
+    mzzzz = binary_search(dataset, "mzzzz");
+    end = clock();
+    printf("Binary search: \"mzzzz\" found at index %lld in %lld ns\n", mzzzz, end - start);
+
+
+    start = clock();
+    long long aaaaa = linear_search(dataset, "aaaaa");
+    end = clock();
+    printf("Linear search: \"aaaaa\" found at index %lld in %lld ns\n", aaaaa, end - start);
+
+    start = clock();
+    aaaaa = binary_search(dataset, "aaaaa");
+    end = clock();
+    printf("Binary search: \"aaaaa\" found at index %lld in %lld ns\n", aaaaa, end - start);
+    return 0;
 }
