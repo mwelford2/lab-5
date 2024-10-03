@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 3.29)
-project(Lab05)
+project(analyzer)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 
 include_directories(.)
 
-add_executable(Lab05
-    analyzer.cpp
-    StringData.h)
+add_executable(analyzer main.cpp StringData.h)
