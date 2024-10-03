@@ -3,7 +3,7 @@
 
 using namespace std;
 
-unsigned long long linear_search(vector<string>& container, string element)
+long long linear_search(vector<string>& container, string element)
 {
     // Iterate through data
     for (unsigned long long i = 0; i < container.size(); ++i)
@@ -19,7 +19,7 @@ unsigned long long linear_search(vector<string>& container, string element)
     return -1;
 }
 
-unsigned long long binary_search(vector<string>& container, string element)
+long long binary_search(vector<string>& container, string element)
 {
     // Use two pointers to keep track of edges of search space
     unsigned long long left = 0;
