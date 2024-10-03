@@ -1,39 +1,32 @@
 #include <iostream>
 #include "StringData.h"
-
-
 using namespace std;
-
-long long linear_search(const vector<string>& vector, const char* str)
+long long linear_search(vector<string>& container, string element)
 {
-    for (long long i = 0; i < vector.size(); ++i)
+    for(unsigned long long i = 0; i < container.size(); i++)
     {
-        if (vector[i] == str)
-        {
-            return i;
-        }
+        if(container[i] == element) return i;
     }
     return -1;
 }
 
-long long binary_search(const vector<string>& vector, const char* str)
+long long binary_search(vector<string>& container, string element)
 {
-    long long left = 0;
-    long long right = vector.size() - 1;
-    while (left <= right)
+    unsigned long long low = 0, high = container.size() - 1;
+    while(low <= high)
     {
-        long long mid = left + (right - left) / 2;
-        if (vector[mid] < str)
+        unsigned long long mid = (low + high) / 2;
+        if(container[mid] == element)
         {
-            left = mid + 1;
+            return mid;
         }
-        else if (vector[mid] > str)
+        else if (container[mid] < element)
         {
-            right = mid - 1;
+            low = mid + 1;
         }
         else
         {
-            return mid;
+            high = mid - 1;
         }
     }
     return -1;
@@ -41,50 +34,43 @@ long long binary_search(const vector<string>& vector, const char* str)
 
 int main()
 {
-    vector<string> dataset = getStringData();
+    vector<string>& dataset = getStringData();
 
+    cout << "Search \"not_here\"..." << endl;
+    cout<<"Linear Search: " << endl;
+    long long begin = systemTimeNanoseconds();
+    cout<<"Index: " << linear_search(dataset, "not_here")<< endl;
+    cout<<"Time: " << ((systemTimeNanoseconds() - begin)/1e9)<<endl;
+    cout<<endl;
 
-    clock_t start = clock();
-    long long not_here = linear_search(dataset, "not_here");
-    clock_t end = clock();
-    printf("Linear search: \"not_here\" found at index %lld in %lld ns\n", not_here, end - start);
+    cout<<"Binary Search: " << endl;
+    begin = systemTimeNanoseconds();
+    cout<<"Index: " << binary_search(dataset, "not_here")<< endl;
+    cout << "Time: " << ((systemTimeNanoseconds() - begin)/1e9)<<endl;
 
-    start = clock();
-    not_here = binary_search(dataset, "not_here");
-    end = clock();
-    printf("Binary search: \"not_here\" found at index %lld in %lld ns\n", not_here, end - start);
+    cout << "Search \"mzzzz\"..." << endl;
+    cout<<"Linear Search: " << endl;
+    begin = systemTimeNanoseconds();
+    cout<<"Index: " << linear_search(dataset, "mzzzz")<< endl;
+    cout<<"Time: " << ((systemTimeNanoseconds() - begin)/1e9)<<endl;
+    cout<<endl;
 
+    cout<<"Binary Search: " << endl;
+    begin = systemTimeNanoseconds();
+    cout<<"Index: " << binary_search(dataset, "mzzzz")<< endl;
+    cout << "Time: " << ((systemTimeNanoseconds() - begin)/1e9)<<endl;
+    cout << endl;
 
-    start = clock();
-    long long zzzzz = linear_search(dataset, "zzzzz");
-    end = clock();
-    printf("Linear search: \"zzzzz\" found at index %lld in %lld ns\n", zzzzz, end - start);
+    cout << "Search \"aaaaa\"..." << endl;
+    cout<<"Linear Search: " << endl;
+    begin = systemTimeNanoseconds();
+    cout<<"Index: " << linear_search(dataset, "aaaaa")<< endl;
+    cout<<"Time: " << ((systemTimeNanoseconds() - begin)/1e9)<<endl;
+    cout<<endl;
 
-    start = clock();
-    zzzzz = binary_search(dataset, "zzzzz");
-    end = clock();
-    printf("Binary search: \"zzzzz\" found at index %lld in %lld ns\n", zzzzz, end - start);
-
-
-    start = clock();
-    long long mzzzz = linear_search(dataset, "mzzzz");
-    end = clock();
-    printf("Linear search: \"mzzzz\" found at index %lld in %lld ns\n", mzzzz, end - start);
-
-    start = clock();
-    mzzzz = binary_search(dataset, "mzzzz");
-    end = clock();
-    printf("Binary search: \"mzzzz\" found at index %lld in %lld ns\n", mzzzz, end - start);
-
-
-    start = clock();
-    long long aaaaa = linear_search(dataset, "aaaaa");
-    end = clock();
-    printf("Linear search: \"aaaaa\" found at index %lld in %lld ns\n", aaaaa, end - start);
-
-    start = clock();
-    aaaaa = binary_search(dataset, "aaaaa");
-    end = clock();
-    printf("Binary search: \"aaaaa\" found at index %lld in %lld ns\n", aaaaa, end - start);
-    return 0;
+    cout<<"Binary Search: " << endl;
+    begin = systemTimeNanoseconds();
+    cout<<"Index: " << binary_search(dataset, "aaaaa")<< endl;
+    cout << "Time: " << ((systemTimeNanoseconds() - begin)/1e9)<<endl;
 }
+
